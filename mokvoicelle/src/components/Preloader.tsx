@@ -14,11 +14,17 @@ const loadingPhases = [
 ];
 
 export default function Preloader() {
+  const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [phaseIndex, setPhaseIndex] = useState(0);
 
   useEffect(() => {
+    setMounted(true);
+
+    // Prevent execution during build-time SSR/Prerendering
+    if (typeof window === 'undefined') return;
+
     // Check if user already saw the preloader in this session
     const hasLoaded = sessionStorage.getItem('mok_has_loaded');
     if (hasLoaded) {
@@ -26,8 +32,7 @@ export default function Preloader() {
       return;
     }
 
-    // Extended timer for ~25-second loading sequence
-    // 250ms * 100 steps = 25,000ms (25 seconds)
+    // Extended timer for ~25-second loading sequence (250ms * 100 steps = 25,000ms)
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -41,7 +46,6 @@ export default function Preloader() {
 
         const nextVal = prev + 1;
 
-        // Progressively switch phases across the 25-second window
         if (nextVal === 15) setPhaseIndex(1);
         if (nextVal === 35) setPhaseIndex(2);
         if (nextVal === 55) setPhaseIndex(3);
@@ -54,6 +58,9 @@ export default function Preloader() {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Do not render anything during static generation or before client hydration
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>

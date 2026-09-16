@@ -19,12 +19,12 @@ const TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
     quote:
-      'MOK Voicelle transformed our entire digital academy interface. The custom React platform is blazing fast, and the 1-year SEO support has significantly boosted our student onboarding.',
-    author: 'Emeka Okonkwo',
-    role: 'Lead Director',
-    company: 'Vaceup Digital Academy',
+      'MOK Voicelle transformed our entire social media presence with absolutely stunning and breath-taking designs.The results were immediate and impressive.',
+    author: 'Benestelle',
+    role: 'Ceo & Founder',
+    company: 'Benestelle',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    avatar: '/images/testimonials/benestelle.jpeg',
     projectTag: 'Native Web Build',
   },
   {
@@ -53,23 +53,23 @@ const TESTIMONIALS: Testimonial[] = [
     id: '4',
     quote:
       'Their complete brand overhaul and social media content management completely revitalized our customer engagement metrics within two months of launch.',
-    author: 'Amina Bello',
-    role: 'Brand Manager',
-    company: 'Sora Lifestyle',
+    author: 'Pop-Up Lagos',
+    role: 'CEO & Founder',
+    company: 'Pop-Up Lagos Restaurant and Events',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
-    projectTag: 'Social Media & Graphic Design',
+    avatar: '/images/testimonials/popup.jpeg',
+    projectTag: 'Logo Design',
   },
   {
     id: '5',
     quote:
-      'Working with MOK Voicelle was effortless. The website revamp brought our bounce rate down significantly, and the page loading speeds are top tier.',
-    author: 'David Chen',
-    role: 'Technical Founder',
-    company: 'Nexus Logistics',
+      'Working with MOK Voicelle was effortless. The logo was quite beautiful and it sits perfectly on my IG.',
+    author: 'Mrs Lara Johnson',
+    role: 'Ceo & Founder',
+    company: 'Goshen',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-    projectTag: 'Website Revamping',
+    avatar: '/images/testimonials/lara.jpeg',
+    projectTag: 'Logo Design',
   },
 ];
 

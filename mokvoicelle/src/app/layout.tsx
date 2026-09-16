@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import Preloader from "@/components/Preloader";
+import ClientOnlyPreloader from "@/components/ClientOnlyPreloader";
+import ClientOnlyWhatsApp from "@/components/ClientOnlyWhatsApp";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +18,7 @@ export const metadata: Metadata = {
   title: "MOK Voicelle",
   description: "High-impact web design, voiceovers, and media production.",
   icons: {
-    icon: "/icon.png", // or "/images/team/moklogo.png"
-    //apple: "/apple-touch-icon.png",
+    icon: "/icon.png",
   },
 };
 
@@ -33,9 +32,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Preloader />
+        <ClientOnlyPreloader />
         {children}
-        <WhatsAppButton />
+        <ClientOnlyWhatsApp />
       </body>
     </html>
   );
