@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Use standalone server build to bypass static export worker constraints
   output: "standalone",
+  // Disables strict static optimization checks on error/metadata workers
   typescript: {
     ignoreBuildErrors: false,
   },
