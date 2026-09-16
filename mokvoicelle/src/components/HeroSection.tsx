@@ -1,13 +1,47 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Play, TrendingUp, ShieldCheck, Cpu, Sparkles, Layers } from 'lucide-react';
+import { ArrowUpRight, Play, TrendingUp, ShieldCheck, Cpu, Sparkles } from 'lucide-react';
+
+const words = [
+  'Digital Masterpieces',
+  'Voiceover Productions',
+  'High-Impact Websites',
+  'Scalable Media Engines',
+];
 
 export default function HeroSection() {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const targetWord = words[currentWordIndex];
+    const typingSpeed = isDeleting ? 40 : 80;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        setCurrentText(targetWord.slice(0, currentText.length + 1));
+        if (currentText === targetWord) {
+          setTimeout(() => setIsDeleting(true), 2000); // Pause before backspacing
+        }
+      } else {
+        setCurrentText(targetWord.slice(0, currentText.length - 1));
+        if (currentText === '') {
+          setIsDeleting(false);
+          setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        }
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, currentWordIndex]);
+
   return (
     <section className="relative min-h-[98vh] flex items-center justify-center bg-slate-950 text-white px-6 md:px-12 overflow-hidden pt-28 pb-16">
       
-      {/* 1. Brand-Colored Tech Grid Pattern */}
+      {/* 1. Tech Grid Background */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -20,65 +54,19 @@ export default function HeroSection() {
         </svg>
       </div>
 
-      {/* 2. Levitating Cyber Particles */}
-      {[...Array(16)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-[#1E3DF0] shadow-[0_0_15px_#1E3DF0] pointer-events-none"
-          style={{
-            width: `${(i % 3) + 3}px`,
-            height: `${(i % 3) + 3}px`,
-            top: `${(i * 6) + 8}%`,
-            left: `${(i * 6.2) + 4}%`,
-          }}
-          animate={{
-            y: [0, -35, 0],
-            x: [0, (i % 2 === 0 ? 25 : -25), 0],
-            opacity: [0.2, 0.9, 0.2],
-            scale: [1, 1.6, 1],
-          }}
-          transition={{
-            duration: 4.5 + (i % 4),
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: i * 0.25,
-          }}
-        />
-      ))}
-
-      {/* 3. High-Definition Brand Color Atmospheric Glows */}
-      <motion.div
-        animate={{
-          scale: [1, 1.25, 1],
-          opacity: [0.35, 0.6, 0.35],
-        }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/2 right-0 -translate-y-1/2 w-[650px] h-[650px] bg-[#1E3DF0]/35 rounded-full blur-[150px] pointer-events-none"
-      />
-
-      <motion.div
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.45, 0.2],
-        }}
-        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute top-1/3 left-[-100px] w-[500px] h-[500px] bg-indigo-600/25 rounded-full blur-[130px] pointer-events-none"
-      />
-
       {/* Main Grid Container */}
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
         
-        {/* Left Column: Premium Pitch Copy */}
+        {/* Left Column: Typing Pitch Copy */}
         <div className="lg:col-span-6 flex flex-col items-start text-left">
           
-          {/* Quality Pill Badge */}
           <motion.div 
             initial={{ opacity: 0, y: 15 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#1E3DF0]/40 bg-[#1E3DF0]/10 text-xs font-semibold text-white mb-6 shadow-sm shadow-[#1E3DF0]/20"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 text-[#1E3DF0]" />
             <span>Digital Experience & Strategic Excellence</span>
           </motion.div>
 
@@ -86,9 +74,14 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, delay: 0.1 }} 
-            className="text-4xl sm:text-6xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] mb-6 bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent"
+            className="text-4xl sm:text-6xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] mb-6 text-white min-h-[160px] sm:min-h-[180px]"
           >
-            We Craft Immersive Digital Masterpieces & Brand Stories
+            We Craft{' '}
+            <span className="bg-gradient-to-r from-[#1E3DF0] via-blue-400 to-indigo-300 bg-clip-text text-transparent">
+              {currentText}
+            </span>
+            <span className="animate-pulse text-[#1E3DF0]">|</span>
+            <br />& Brand Stories
           </motion.h1>
 
           <motion.p 
@@ -121,21 +114,18 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right Column: High-End 3D Glass Laboratory Visual */}
+        {/* Right Column (Visual) Remains untouched */}
         <div className="lg:col-span-6 relative flex items-center justify-center min-h-[500px]">
-          
           <motion.div 
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.2 }}
             className="relative w-full max-w-md aspect-square flex items-center justify-center"
           >
-            {/* 1. Reflective Glass Pedestal Base */}
             <div className="absolute bottom-4 w-80 h-28 rounded-[100%] bg-gradient-to-b from-[#1E3DF0]/20 via-slate-900/80 to-[#1E3DF0]/40 border border-[#1E3DF0]/40 backdrop-blur-3xl shadow-[0_20px_60px_rgba(30,61,240,0.45)] transform -rotate-3 flex items-center justify-center">
               <div className="w-64 h-16 rounded-[100%] border border-[#1E3DF0]/30 bg-[#1E3DF0]/10" />
             </div>
 
-            {/* 2. Floating Glass Cube (Top-Left) */}
             <motion.div
               animate={{ y: [0, -18, 0], rotate: [0, 6, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -146,7 +136,6 @@ export default function HeroSection() {
               </div>
             </motion.div>
 
-            {/* 3. Floating Glass Cube (Top-Right) */}
             <motion.div
               animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
@@ -158,7 +147,6 @@ export default function HeroSection() {
               <span className="text-[10px] font-bold text-slate-200">Verified Systems</span>
             </motion.div>
 
-            {/* 4. Central Refractive Glass Test Tube Vessel */}
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -166,7 +154,6 @@ export default function HeroSection() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-[#1E3DF0]/50 via-transparent to-transparent opacity-90" />
               
-              {/* Internal Dynamic Liquid Metric Bars */}
               <div className="flex items-end justify-between gap-3 h-full relative z-10 pb-4 px-1">
                 <motion.div 
                   animate={{ height: ['45%', '80%', '45%'] }}
@@ -186,7 +173,6 @@ export default function HeroSection() {
               </div>
             </motion.div>
 
-            {/* 5. Glass Analytics Overlay Card */}
             <motion.div
               animate={{ x: [0, 10, 0], y: [0, -10, 0] }}
               transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -203,7 +189,6 @@ export default function HeroSection() {
               <div className="text-[10px] text-slate-400 mt-0.5">+240% Engagement Increase</div>
             </motion.div>
 
-            {/* 6. Refractive Glass Orb (Bottom-Right) */}
             <motion.div
               animate={{ y: [0, -14, 0], scale: [1, 1.08, 1] }}
               transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
@@ -211,9 +196,7 @@ export default function HeroSection() {
             >
               <div className="w-8 h-8 rounded-full bg-[#1E3DF0]/70 blur-[3px]" />
             </motion.div>
-
           </motion.div>
-
         </div>
 
       </div>
