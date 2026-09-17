@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 const BRAND_COLOR = '#1E3DF0';
 
@@ -13,9 +13,9 @@ const loadingPhases = [
   'BRINGING BRAND ALIVE',
 ];
 
-// --- Animation Variants for Text and Mic ---
+// --- Animation Variants for Text and Mic (Explicitly Typed) ---
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -27,7 +27,7 @@ const containerVariants = {
   },
 };
 
-const letterVariants = {
+const letterVariants: Variants = {
   hidden: { opacity: 0, y: 15, filter: 'blur(4px)' },
   visible: {
     opacity: 1,
@@ -37,7 +37,7 @@ const letterVariants = {
   },
 };
 
-const micIconVariants = {
+const micIconVariants: Variants = {
   hidden: { pathLength: 0, opacity: 0 },
   visible: {
     pathLength: 1,
