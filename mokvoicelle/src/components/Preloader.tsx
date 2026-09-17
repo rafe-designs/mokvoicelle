@@ -2,16 +2,53 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+
+const BRAND_COLOR = '#1E3DF0';
 
 const loadingPhases = [
   'INITIALIZING AUDIO ENGINE',
   'CALIBRATING STUDIO FREQUENCIES',
   'LOADING HIGH-DEFINITION ASSETS',
   'SYNCHRONIZING MEDIA PIPELINES',
-  'COMPOSING BRAND FRAMEWORK',
-  'BRINGING YOUR CONTENT ALIVE',
+  'BRINGING BRAND ALIVE',
 ];
+
+// --- Animation Variants for Text and Mic ---
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.05, // Faster stagger for 2s timing
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const letterVariants = {
+  hidden: { opacity: 0, y: 15, filter: 'blur(4px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const micIconVariants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: {
+      delay: 0.7, // Draws faster to fit the 2s timeline
+      duration: 1.0,
+      ease: 'easeInOut',
+    },
+  },
+};
 
 export default function Preloader() {
   const [mounted, setMounted] = useState(false);
@@ -21,45 +58,36 @@ export default function Preloader() {
 
   useEffect(() => {
     setMounted(true);
-
-    // Prevent execution during build-time SSR/Prerendering
     if (typeof window === 'undefined') return;
 
-    // Check if user already saw the preloader in this session
-    const hasLoaded = sessionStorage.getItem('mok_has_loaded');
-    if (hasLoaded) {
-      setIsLoading(false);
-      return;
-    }
-
-    // Extended timer for ~25-second loading sequence (250ms * 100 steps = 25,000ms)
+    // --- 2 Seconds Loading Sequence ---
+    // Total duration: 2000ms. 100 steps total.
+    // Step interval = 2000 / 100 = 20ms
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
+        if (prev >= 99) {
           clearInterval(interval);
           setTimeout(() => {
             setIsLoading(false);
-            sessionStorage.setItem('mok_has_loaded', 'true');
-          }, 800);
+          }, 300); 
           return 100;
         }
 
         const nextVal = prev + 1;
-
-        if (nextVal === 15) setPhaseIndex(1);
-        if (nextVal === 35) setPhaseIndex(2);
-        if (nextVal === 55) setPhaseIndex(3);
-        if (nextVal === 75) setPhaseIndex(4);
-        if (nextVal === 90) setPhaseIndex(5);
+        
+        // Phase timings scaled for 2 seconds
+        if (nextVal === 25) setPhaseIndex(1);
+        if (nextVal === 50) setPhaseIndex(2);
+        if (nextVal === 75) setPhaseIndex(3);
+        if (nextVal === 90) setPhaseIndex(4);
 
         return nextVal;
       });
-    }, 250);
+    }, 20); // 20ms * 100 steps = 2 seconds
 
     return () => clearInterval(interval);
   }, []);
 
-  // Do not render anything during static generation or before client hydration
   if (!mounted) return null;
 
   return (
@@ -69,137 +97,138 @@ export default function Preloader() {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.08,
-            filter: 'blur(12px)',
-            transition: { duration: 1, ease: [0.76, 0, 0.24, 1] },
+            scale: 1.05,
+            filter: 'blur(10px)',
+            transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
           }}
           className="fixed inset-0 z-[100] bg-[#02040A] flex flex-col items-center justify-between py-10 px-6 overflow-hidden select-none"
         >
           {/* 1. Atmospheric Ambient & Grid Background */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1E3DF0]/20 via-[#060A17]/80 to-[#02040A] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1E3DF0]/15 via-[#060A17]/50 to-[#02040A] pointer-events-none" />
           
-          <div className="absolute inset-0 opacity-15 pointer-events-none">
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <pattern id="preloader-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E3DF0" strokeWidth="0.6" />
+              <pattern id="preloader-grid-small" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 30 0 L 0 0 0 30" fill="none" stroke={BRAND_COLOR} strokeWidth="0.5" />
               </pattern>
-              <rect width="100%" height="100%" fill="url(#preloader-grid)" />
+              <rect width="100%" height="100%" fill="url(#preloader-grid-small)" />
             </svg>
           </div>
 
           {/* Top Status Header */}
-          <div className="w-full max-w-5xl flex justify-between items-center relative z-10 font-mono text-[10px] tracking-widest text-slate-500 uppercase border-b border-slate-900 pb-4">
-            <div className="flex items-center gap-2 text-slate-300">
-              <span className="w-2 h-2 rounded-full bg-[#1E3DF0] animate-ping" />
+          <div className="w-full max-w-5xl flex justify-between items-center relative z-10 font-mono text-[10px] tracking-widest text-slate-500 uppercase border-b border-slate-900/50 pb-4">
+            <div className="flex items-center gap-2 text-slate-400">
+              <span className="w-2 h-2 rounded-full bg-[#1E3DF0] animate-pulse" />
               <span>MOK VOICELLE STUDIO ENGINE</span>
             </div>
-            <span>SYS.VER 2.4 / LONGRUN</span>
+            <span>BUILD V3.1 / FAST</span>
           </div>
 
-          {/* 2. Central Logo Stage */}
+          {/* 2. Central Animated Logo Stage */}
           <div className="relative flex flex-col items-center justify-center my-auto z-10">
             
-            {/* Sonic Wave Pulse Rings */}
-            {[...Array(4)].map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{
-                  scale: [0.7, 2.2 + i * 0.4],
-                  opacity: [0.5, 0],
-                  rotate: [0, 90],
-                }}
-                transition={{
-                  duration: 3.5,
-                  repeat: Infinity,
-                  delay: i * 0.8,
-                  ease: 'easeOut',
-                }}
-                className="absolute w-56 h-56 rounded-full border border-[#1E3DF0]/30 border-dashed pointer-events-none"
-              />
-            ))}
-
-            {/* Logo Pedestal */}
+            {/* Animated Text Container */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative p-10 rounded-3xl bg-[#060B1E]/60 border border-[#1E3DF0]/30 backdrop-blur-2xl shadow-[0_0_60px_rgba(30,61,240,0.3)] flex flex-col items-center"
+              className="flex items-center text-6xl md:text-7xl font-bold tracking-tighter"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              {/* Branded Corner Accents */}
-              <div className="absolute top-2 left-2 w-2 h-2 border-t-2 border-l-2 border-[#1E3DF0]" />
-              <div className="absolute top-2 right-2 w-2 h-2 border-t-2 border-r-2 border-[#1E3DF0]" />
-              <div className="absolute bottom-2 left-2 w-2 h-2 border-b-2 border-l-2 border-[#1E3DF0]" />
-              <div className="absolute bottom-2 right-2 w-2 h-2 border-b-2 border-r-2 border-[#1E3DF0]" />
+              {/* "Mok" (White) */}
+              {['M', 'o', 'k'].map((letter, index) => (
+                <motion.span key={index} variants={letterVariants} className="text-white">
+                  {letter}
+                </motion.span>
+              ))}
 
-              <Image
-                src="/images/team/moklogo.png"
-                alt="MOK Voicelle"
-                width={280}
-                height={90}
-                style={{ width: 'auto', height: '90px' }}
-                className="object-contain brightness-125 drop-shadow-[0_0_35px_rgba(30,61,240,0.8)]"
-                priority
-              />
+              {/* Animated Microphone Icon */}
+              <motion.svg
+                className="w-10 h-10 md:w-12 md:h-12 mx-3 overflow-visible"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                initial="hidden"
+                animate="visible"
+              >
+                <motion.path
+                  d="M12 1A3 3 0 0 0 9 4V11A3 3 0 0 0 15 11V4A3 3 0 0 0 12 1Z"
+                  stroke={BRAND_COLOR}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  variants={micIconVariants}
+                />
+                <motion.path
+                  d="M19 11V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V11"
+                  stroke={BRAND_COLOR}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  variants={micIconVariants}
+                />
+                <motion.path
+                  d="M12 19V23"
+                  stroke={BRAND_COLOR}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  variants={micIconVariants}
+                />
+              </motion.svg>
 
-              {/* Shimmer Light Flare Beam */}
-              <motion.div
-                initial={{ x: '-200%' }}
-                animate={{ x: '200%' }}
-                transition={{
-                  duration: 2.2,
-                  repeat: Infinity,
-                  repeatDelay: 0.6,
-                  ease: 'easeInOut',
-                }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 pointer-events-none"
-              />
+              {/* "Voicelle" (Branded Color) */}
+              {['V', 'o', 'i', 'c', 'e', 'l', 'l', 'e'].map((letter, index) => (
+                <motion.span 
+                  key={`v-${index}`} 
+                  variants={letterVariants} 
+                  style={{ color: BRAND_COLOR }}
+                  className="inline-block"
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </motion.div>
 
-            {/* Equalizer Visualizer Bars */}
-            <div className="flex items-end gap-1.5 h-10 mt-8">
-              {[35, 75, 45, 95, 60, 100, 80, 50, 90, 40, 85, 65, 30, 90, 50].map((height, idx) => (
-                <motion.div
-                  key={idx}
-                  animate={{ height: [`${height * 0.25}%`, `${height}%`, `${height * 0.15}%`] }}
-                  transition={{
-                    duration: 0.7 + (idx % 4) * 0.15,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                    ease: 'easeInOut',
-                  }}
-                  className="w-1.5 bg-gradient-to-t from-[#1E3DF0] via-indigo-400 to-sky-300 rounded-full shadow-[0_0_10px_#1E3DF0]"
-                />
-              ))}
-            </div>
+            {/* Subtle Glowing Subtitle */}
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4, duration: 0.5 }}
+              className="text-sm font-mono text-slate-600 uppercase tracking-[0.2em] mt-6"
+            >
+              TURNING VISION INTO DOMINANCE
+            </motion.p>
           </div>
 
           {/* 3. Progress Bar & Telemetry Status */}
           <div className="w-full max-w-md flex flex-col items-center gap-3 relative z-10">
-            <div className="w-full flex justify-between items-center text-xs font-mono">
-              <motion.span
-                key={phaseIndex}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-slate-300 font-semibold tracking-wider text-[11px]"
-              >
-                {loadingPhases[phaseIndex]}
-              </motion.span>
-              <span className="text-[#1E3DF0] font-extrabold text-sm font-mono">{progress}%</span>
+            <div className="w-full flex justify-between items-center text-xs font-mono h-6">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={phaseIndex}
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  transition={{ duration: 0.15 }}
+                  className="text-slate-400 font-medium tracking-wider text-[11px]"
+                >
+                  {loadingPhases[phaseIndex]}
+                </motion.span>
+              </AnimatePresence>
+              <span style={{ color: BRAND_COLOR }} className="font-extrabold text-sm font-mono tabular-nums">{progress}%</span>
             </div>
 
             {/* Progress Track */}
-            <div className="w-full h-2 bg-slate-950 border border-slate-800 rounded-full overflow-hidden relative p-0.5">
+            <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden relative">
               <motion.div
-                className="h-full bg-gradient-to-r from-[#1E3DF0] via-indigo-500 to-[#1E3DF0] rounded-full shadow-[0_0_18px_#1E3DF0]"
-                style={{ width: `${progress}%` }}
-                transition={{ ease: 'linear' }}
+                className="h-full rounded-full shadow-[0_0_10px_#1E3DF0]"
+                style={{ 
+                    width: `${progress}%`,
+                    backgroundColor: BRAND_COLOR
+                }}
+                transition={{ ease: 'linear', duration: 0.02 }}
               />
             </div>
-
-            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mt-1">
-              HIGH-IMPACT WEB • VOICEOVER • MEDIA PRODUCTION
-            </p>
           </div>
 
         </motion.div>
