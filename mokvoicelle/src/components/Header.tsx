@@ -61,7 +61,9 @@ export default function Header() {
               className="object-contain"
               priority
             />
+            
           </div>
+          <h2 className="text-lg font-bold text-white">MOK <span className="text-[#1E3DF0]">Voicelle</span></h2>
           
         </Link>
 

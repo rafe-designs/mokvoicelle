@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Play, ExternalLink, Image as ImageIcon, Film, X } from 'lucide-react';
+import { Sparkles, Play, ExternalLink, Image as ImageIcon, Film, X, Eye } from 'lucide-react';
 import Image from 'next/image';
 
 type Category = 'all' | 'video' | 'design' | 'web';
@@ -26,7 +26,7 @@ const PROJECTS: Project[] = [
     category: 'web',
     categoryLabel: 'Web Engineering',
     type: 'image',
-    previewUrl: '/portfolio/portfolio-1.jpg',
+    previewUrl: '/portfolio/1920w light.png',
     description: 'Interactive educational platform featuring dynamic course navigation, authentication modal flows, and custom student dashboards.',
     liveUrl: 'https://vaceup.netlify.app',
     badge: 'Live Platform',
@@ -37,7 +37,7 @@ const PROJECTS: Project[] = [
     category: 'web',
     categoryLabel: 'Web Engineering & UI',
     type: 'image',
-    previewUrl: '/portfolio/portfolio-1.jpg',
+    previewUrl: '/portfolio/Main.png',
     description: 'High-end booking and service management system crafted with modern React and neomorphic interface accents.',
     liveUrl: 'https://sunshineconcierge.netlify.app',
     badge: 'Live Platform',
@@ -48,7 +48,7 @@ const PROJECTS: Project[] = [
     category: 'design',
     categoryLabel: 'UI/UX & Systems',
     type: 'image',
-    previewUrl: '/portfolio/portfolio-1.jpg',
+    previewUrl: '/portfolio/hospiat.png',
     description: 'Comprehensive patient management UI and digital workflow architecture designed for modern hospital infrastructure.',
     liveUrl: 'https://hospital.netlify.app/',
     badge: 'React Redesign in Progress',
@@ -80,11 +80,42 @@ const PROJECTS: Project[] = [
     previewUrl: '/portfolio/vid.mp4',
     description: 'Studio-grade narration combined with atmospheric background visuals.',
   },
+  {
+    id: '7',
+    title: 'Gospel Concert Live Flyer',
+    category: 'design',
+    categoryLabel: 'Graphics',
+    type: 'image',
+    previewUrl: '/portfolio/portfolio-6.jpeg',
+    description: 'Striking promotional artwork designed for major live music events, capturing artist energy and event prestige.',
+    badge: 'Event Branding',
+  },
+  {
+    id: '8',
+    title: 'Tope Alabi Live Experience',
+    category: 'design',
+    categoryLabel: 'Graphics',
+    type: 'image',
+    previewUrl: '/portfolio/portfolio-4.jpeg',
+    description: 'High-end concert poster design featuring elegant typography, atmospheric lighting, and pristine visual hierarchy.',
+    badge: 'Concert Keyart',
+  },
+  {
+    id: '9',
+    title: 'Worship Encounter Art Direction',
+    category: 'design',
+    categoryLabel: 'Graphics',
+    type: 'image',
+    previewUrl: '/portfolio/portfolio-5.jpeg',
+    description: 'Professional multi-artist event flyer crafted to drive high audience engagement and brand recall across digital channels.',
+    badge: 'Promotional Design',
+  }
 ];
 
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState<Category>('all');
   const [playingVideoUrl, setPlayingVideoUrl] = useState<string | null>(null);
+  const [activeImageUrl, setActiveImageUrl] = useState<string | null>(null);
 
   const filteredProjects = activeTab === 'all' 
     ? PROJECTS 
@@ -148,10 +179,8 @@ export default function Portfolio() {
                           playsInline
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90"
                         />
-                        {/* Dark Gradient Overlay for Contrast */}
                         <div className="absolute inset-0 bg-gradient-to-t from-[#121A33] via-transparent to-black/40" />
 
-                        {/* Centered Neomorphic Play Badge */}
                         <button
                           onClick={() => setPlayingVideoUrl(project.previewUrl)}
                           className="absolute z-10 w-12 h-12 rounded-full bg-[#1E3DF0] hover:bg-[#1832C7] text-white flex items-center justify-center shadow-lg shadow-[#1E3DF0]/40 group-hover:scale-110 active:scale-95 transition-all"
@@ -160,14 +189,35 @@ export default function Portfolio() {
                           <Play className="w-5 h-5 fill-current ml-0.5" />
                         </button>
                       </div>
+                    ) : project.categoryLabel === 'Graphics' ? (
+                      /* Graphics Cards: Has the View Eye Button */
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <Image
+                          src={project.previewUrl}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#121A33] via-transparent to-black/40" />
+
+                        <button
+                          onClick={() => setActiveImageUrl(project.previewUrl)}
+                          className="absolute z-10 w-12 h-12 rounded-full bg-[#1E3DF0] hover:bg-[#1832C7] text-white flex items-center justify-center shadow-lg shadow-[#1E3DF0]/40 group-hover:scale-110 active:scale-95 transition-all"
+                          aria-label="View Full Image"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                      </div>
                     ) : (
+                      /* Web / UI Cards: Clean standard preview */
                       <div className="relative w-full h-full">
                         <Image
                           src={project.previewUrl}
                           alt={project.title}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#121A33] via-transparent to-black/30" />
                       </div>
@@ -193,25 +243,25 @@ export default function Portfolio() {
 
                 {/* Card Footer */}
                 <div className="px-6 pt-4 pb-5 flex items-center justify-between border-t border-slate-800/60">
-                    {project.badge ? (
-                <span className="inline-flex items-center text-[10px] font-semibold text-white-400 bg-[#1E3DF0]-400/10 px-3 py-1 rounded-full border border-[#1E3DF0]-400/20 shadow-sm">
-                    {project.badge}
-                </span>
-                    ) : (
-                <span className="text-xs text-slate-500 font-medium">{project.categoryLabel}</span>
-             )}
+                  {project.badge ? (
+                    <span className="inline-flex items-center text-[10px] font-semibold text-slate-300 bg-[#1E3DF0]/10 px-3 py-1 rounded-full border border-[#1E3DF0]/20 shadow-sm">
+                      {project.badge}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-slate-500 font-medium">{project.categoryLabel}</span>
+                  )}
 
-                {project.liveUrl && (
-            <a
-      href={project.liveUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 text-xs font-semibold text-white hover:text-white transition-colors py-0.5"
-    >
-      <span>Visit Site</span>
-      <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-  )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-white hover:text-slate-300 transition-colors py-0.5"
+                    >
+                      <span>Visit Site</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -220,7 +270,7 @@ export default function Portfolio() {
 
       </div>
 
-      {/* Lightbox Modal */}
+      {/* Video Lightbox Modal */}
       <AnimatePresence>
         {playingVideoUrl && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -244,6 +294,37 @@ export default function Portfolio() {
                   controls
                   autoPlay
                   className="w-full h-full object-contain"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Graphics Lightbox Modal (Shows Full Uncropped Image) */}
+      <AnimatePresence>
+        {activeImageUrl && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative w-full max-w-3xl max-h-[90vh] bg-slate-900 border border-[#1E3DF0]/40 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(30,61,240,0.3)] flex items-center justify-center p-4"
+            >
+              <button
+                onClick={() => setActiveImageUrl(null)}
+                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-950/80 text-white hover:bg-[#1E3DF0] transition-all"
+                aria-label="Close Image"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="relative w-full h-[80vh] flex items-center justify-center">
+                <Image
+                  src={activeImageUrl}
+                  alt="Expanded Graphic Design"
+                  fill
+                  className="object-contain"
                 />
               </div>
             </motion.div>

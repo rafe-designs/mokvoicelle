@@ -22,8 +22,8 @@ export default function Footer() {
               <Image
                 src="/images/team/moklogo.png"
                 alt="MOK Voicelle Logo"
-                width={550}
-                height={100}
+                width={750}
+                height={200}
                 style={{ width: 'auto', height: '48px' }}
                 className="object-contain brightness-120"
                 priority
