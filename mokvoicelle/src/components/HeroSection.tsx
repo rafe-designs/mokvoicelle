@@ -41,18 +41,7 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-[98vh] flex items-center justify-center bg-slate-950 text-white px-6 md:px-12 overflow-hidden pt-28 pb-16">
       
-      {/* 1. Tech Grid Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="brand-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1E3DF0" strokeWidth="0.8" />
-              <circle cx="60" cy="0" r="1.5" fill="#1E3DF0" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#brand-grid)" />
-        </svg>
-      </div>
+      
 
       {/* Main Grid Container */}
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">

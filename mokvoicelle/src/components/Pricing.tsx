@@ -1,8 +1,10 @@
+// src/components/Pricing.tsx
 'use client';
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Sparkles, ArrowRight, Zap, ChevronDown, ChevronUp, Mic, Palette, Video, Share2 } from 'lucide-react';
+import { Check, Sparkles, ArrowRight, Zap, ChevronDown, ChevronUp, Mic, Palette, Video, Share2, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 interface PricingTier {
   id: string;
@@ -85,9 +87,18 @@ export default function Pricing() {
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
             Web Development Pricing
           </h2>
-          <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+          <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6">
             All brand new website builds include <span className="text-white font-semibold">1 Year of SEO</span> and <span className="text-white font-semibold">Data Analytics Support</span>.
           </p>
+
+          {/* Direct Link to Dedicated Pricing Page */}
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1E3DF0]/1:// hover:bg-[#1E3DF0]/20 border border-[#1E3DF0]/40 text-xs font-semibold text-[#1E3DF0] hover:text-white transition-all shadow-md group bg-[#1E3DF0]/10"
+          >
+            <span>Explore Full Dedicated Pricing Hub</span>
+            <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
         </div>
 
         {/* Website Pricing Cards Grid */}
@@ -150,7 +161,7 @@ export default function Pricing() {
         </div>
 
         {/* Toggle Full Rate Card Drawer */}
-        <div className="text-center">
+        <div className="text-center flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             onClick={() => setShowFullRateCard(!showFullRateCard)}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 border border-slate-800 hover:border-[#1E3DF0]/50 text-xs font-semibold text-slate-300 hover:text-white transition-all shadow-md"
@@ -158,6 +169,14 @@ export default function Pricing() {
             <span>{showFullRateCard ? 'Hide Full Agency Rate Card' : 'View Full Agency Rate Card (Voiceovers, Design, Media)'}</span>
             {showFullRateCard ? <ChevronUp className="w-4 h-4 text-[#1E3DF0]" /> : <ChevronDown className="w-4 h-4 text-[#1E3DF0]" />}
           </button>
+
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#1E3DF0] hover:bg-[#1832C7] text-xs font-semibold text-white transition-all shadow-lg shadow-[#1E3DF0]/30"
+          >
+            <span>Open Dedicated Pricing Page</span>
+            <ExternalLink className="w-4 h-4" />
+          </Link>
         </div>
 
         {/* Expanded Agency Rate Card */}

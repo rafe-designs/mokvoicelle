@@ -1,9 +1,11 @@
+// src/components/TeamSlider.tsx
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, X, Sparkles, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles, ArrowRight, ExternalLink, X, Briefcase, Award, Code, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { TEAM_MEMBERS, TeamMember } from '../data/team';
 
 export default function TeamSlider() {
@@ -14,19 +16,17 @@ export default function TeamSlider() {
   // Manual & Automated Scroll Handling
   const scroll = useCallback((direction: 'left' | 'right') => {
     if (carouselRef.current) {
-      const cardWidth = 300; // Step distance matching card width + gap
+      const cardWidth = 300; 
       const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
       const currentScroll = carouselRef.current.scrollLeft;
 
       if (direction === 'right') {
-        // Loop back to start if reached end
         if (currentScroll >= maxScrollLeft - 10) {
           carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
         } else {
           carouselRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
         }
       } else {
-        // Loop to end if reached start
         if (currentScroll <= 10) {
           carouselRef.current.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
         } else {
@@ -58,11 +58,20 @@ export default function TeamSlider() {
         {/* Header & Control Buttons */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#1E3DF0]/40 bg-[#1E3DF0]/10 text-xs font-semibold text-whitemb-3 shadow-sm shadow-[#1E3DF0]/20">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#1E3DF0]/40 bg-[#1E3DF0]/10 text-xs font-semibold text-white mb-3 shadow-sm shadow-[#1E3DF0]/20">
               <Sparkles className="w-3.5 h-3.5" />
               <span>World-Class Talent</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Meet the Minds Behind MOK</h2>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">Meet the Minds Behind MOK</h2>
+            
+            {/* Button that takes you directly to the team page */}
+            <Link
+              href="/team"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1E3DF0]/10 hover:bg-[#1E3DF0]/20 border border-[#1E3DF0]/40 text-xs font-semibold text-white hover:text-white transition-all shadow-md group"
+            >
+              <span>Explore Full Team Hub</span>
+              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
           </div>
 
           {/* Active Navigation Controls */}
@@ -138,43 +147,97 @@ export default function TeamSlider() {
 
       </div>
 
-      {/* Expanded Bio Modal Overlay */}
+      {/* Expanded Detailed Profile Modal (Matches Team Page Style) */}
       <AnimatePresence>
         {selectedMember && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-slate-900 border border-[#1E3DF0]/40 rounded-2xl p-6 md:p-8 text-white shadow-[0_20px_50px_rgba(30,61,240,0.3)] overflow-hidden"
+              className="relative w-full max-w-2xl bg-[#121A33] border border-[#1E3DF0]/40 rounded-3xl p-6 md:p-10 text-white shadow-[0_25px_60px_rgba(30,61,240,0.35)] my-8"
             >
               <button
                 onClick={() => setSelectedMember(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white hover:bg-[#1E3DF0] transition-all"
+                className="absolute top-6 right-6 p-2.5 rounded-full bg-slate-800/80 text-slate-300 hover:text-white hover:bg-[#1E3DF0] transition-all"
                 aria-label="Close Modal"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="flex items-center gap-4 mb-6">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#1E3DF0] flex-shrink-0">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8 pb-6 border-b border-slate-800">
+                <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-2 border-[#1E3DF0] flex-shrink-0 shadow-lg">
                   <Image
                     src={selectedMember.image}
                     alt={selectedMember.name}
                     fill
-                    sizes="64px"
+                    sizes="96px"
                     className="object-cover object-top"
                   />
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold">{selectedMember.name}</h3>
-                  <p className="text-[#1E3DF0] text-sm font-semibold">{selectedMember.role}</p>
+                <div className="text-center sm:text-left">
+                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-[#1E3DF0]/10 text-[#1E3DF0] border border-[#1E3DF0]/20 inline-block mb-2">
+                    Team Profile
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-bold">{selectedMember.name}</h3>
+                  <p className="text-[#1E3DF0] text-sm font-semibold mt-1">{selectedMember.role}</p>
                 </div>
               </div>
 
-              <p className="text-slate-300 leading-relaxed text-sm md:text-base">
-                {selectedMember.bio}
-              </p>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-[#1E3DF0]" />
+                    <span>Professional Overview</span>
+                  </h4>
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    {selectedMember.bio}
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-[#1E3DF0]" />
+                    <span>Core Competencies & Expertise</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {[
+                      "Full-Stack Web Engineering & UI Architecture",
+                      "Technical SEO, Performance & Optimization",
+                      "Database & Cloud Systems Integration",
+                      "Cybersecurity & Security Protocols"
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-2.5 bg-slate-900/80 p-3 rounded-xl border border-slate-800/80">
+                        <CheckCircle2 className="w-4 h-4 text-[#1E3DF0] shrink-0 mt-0.5" />
+                        <span className="text-xs text-slate-200">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
+                    <Code className="w-4 h-4 text-[#1E3DF0]" />
+                    <span>Technical Tools & Stack</span>
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Python", "MongoDB", "Git"].map((tool, idx) => (
+                      <span key={idx} className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-slate-800 flex justify-end">
+                <button
+                  onClick={() => setSelectedMember(null)}
+                  className="px-6 py-2.5 rounded-xl bg-[#1E3DF0] hover:bg-[#1832C7] text-white text-xs font-semibold shadow-md transition-all"
+                >
+                  Close Profile
+                </button>
+              </div>
             </motion.div>
           </div>
         )}

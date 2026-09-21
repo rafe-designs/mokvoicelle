@@ -66,7 +66,7 @@ const TESTIMONIALS: Testimonial[] = [
       'Working with MOK Voicelle was effortless. The logo was quite beautiful and it sits perfectly on my IG.',
     author: 'Mrs Lara Johnson',
     role: 'Ceo & Founder',
-    company: 'Goshen',
+    company: 'Relationship Focus',
     rating: 5,
     avatar: '/images/testimonials/lara.jpeg',
     projectTag: 'Logo Design',

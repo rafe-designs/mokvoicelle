@@ -48,7 +48,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Alade Omotayo",
     role: "Social Media Manager",
     bio: "Driving brand engagement, content strategy, and digital community growth.",
-    image: "/images/team/omotayo.jpg",
+    image: "/images/team/alade.jpeg",
   },
   {
     id: "7",

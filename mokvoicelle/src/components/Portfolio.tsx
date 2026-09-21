@@ -1,9 +1,11 @@
+// src/components/Portfolio.tsx
 'use client';
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Play, ExternalLink, Image as ImageIcon, Film, X, Eye } from 'lucide-react';
+import { Sparkles, Play, ExternalLink, Image as ImageIcon, Film, X, Eye, ChevronRight, Briefcase, Compass } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Category = 'all' | 'video' | 'design' | 'web';
 
@@ -80,36 +82,6 @@ const PROJECTS: Project[] = [
     previewUrl: '/portfolio/vid.mp4',
     description: 'Studio-grade narration combined with atmospheric background visuals.',
   },
-  {
-    id: '7',
-    title: 'Gospel Concert Live Flyer',
-    category: 'design',
-    categoryLabel: 'Graphics',
-    type: 'image',
-    previewUrl: '/portfolio/portfolio-6.jpeg',
-    description: 'Striking promotional artwork designed for major live music events, capturing artist energy and event prestige.',
-    badge: 'Event Branding',
-  },
-  {
-    id: '8',
-    title: 'Tope Alabi Live Experience',
-    category: 'design',
-    categoryLabel: 'Graphics',
-    type: 'image',
-    previewUrl: '/portfolio/portfolio-4.jpeg',
-    description: 'High-end concert poster design featuring elegant typography, atmospheric lighting, and pristine visual hierarchy.',
-    badge: 'Concert Keyart',
-  },
-  {
-    id: '9',
-    title: 'Worship Encounter Art Direction',
-    category: 'design',
-    categoryLabel: 'Graphics',
-    type: 'image',
-    previewUrl: '/portfolio/portfolio-5.jpeg',
-    description: 'Professional multi-artist event flyer crafted to drive high audience engagement and brand recall across digital channels.',
-    badge: 'Promotional Design',
-  }
 ];
 
 export default function Portfolio() {
@@ -122,35 +94,72 @@ export default function Portfolio() {
     : PROJECTS.filter(p => p.category === activeTab);
 
   return (
-    <section id="portfolio" className="py-24 px-6 md:px-12 bg-[#0B1021] text-white relative overflow-hidden border-t border-slate-800/40">
+    <section id="portfolio" className="py-32 bg-[#0B1021] text-white relative overflow-hidden border-t border-slate-800/40">
       
-      {/* Background Glow */}
+      {/* Background Glow Spheres */}
       <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-[#1E3DF0]/10 rounded-full blur-[170px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        {/* Header Section matching Services style */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Our Featured Case Studies</h2>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1E3DF0]/30 bg-[#1E3DF0]/10 text-xs font-semibold text-white mb-4 shadow-inner"
+            >
+              <span>Featured Works</span>
+            </motion.div>
+
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent"
+            >
+              Engineered Case Studies
+            </motion.h2>
           </div>
 
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-[#121A33] border border-slate-800 backdrop-blur-xl">
-            {(['all', 'web', 'video', 'design'] as Category[]).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-xl text-xs font-semibold capitalize transition-all duration-300 ${
-                  activeTab === tab
-                    ? 'bg-[#1E3DF0] text-white shadow-lg shadow-[#1E3DF0]/30'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+          {/* Action Buttons Hub: See More Portfolio*/}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-wrap items-center gap-4"
+          >
+
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#1E3DF0] hover:bg-[#1832C7] text-white text-sm font-semibold transition-all duration-300 shadow-xl shadow-[#1E3DF0]/30 group"
+            >
+              <Briefcase className="w-4 h-4 text-white" />
+              <span>See More Portfolio</span>
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-[#121A33] border border-slate-800 backdrop-blur-xl w-fit mb-12">
+          {(['all', 'web', 'video', 'design'] as Category[]).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-5 py-2 rounded-xl text-xs font-semibold capitalize transition-all duration-300 ${
+                activeTab === tab
+                  ? 'bg-[#1E3DF0] text-white shadow-lg shadow-[#1E3DF0]/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
 
         {/* Portfolio Grid */}
@@ -167,7 +176,6 @@ export default function Portfolio() {
                 className="group relative bg-[#121A33]/90 border border-slate-800 rounded-2xl overflow-hidden hover:border-[#1E3DF0]/60 transition-all duration-300 shadow-xl hover:shadow-[0_15px_30px_rgba(30,61,240,0.2)] flex flex-col justify-between"
               >
                 <div>
-                  {/* Media Frame (Strict 16:9 Aspect Ratio) */}
                   <div className="relative aspect-video w-full overflow-hidden bg-slate-950 flex items-center justify-center">
                     {project.type === 'video' ? (
                       <div className="relative w-full h-full flex items-center justify-center">
@@ -189,28 +197,7 @@ export default function Portfolio() {
                           <Play className="w-5 h-5 fill-current ml-0.5" />
                         </button>
                       </div>
-                    ) : project.categoryLabel === 'Graphics' ? (
-                      /* Graphics Cards: Has the View Eye Button */
-                      <div className="relative w-full h-full flex items-center justify-center">
-                        <Image
-                          src={project.previewUrl}
-                          alt={project.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-90"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#121A33] via-transparent to-black/40" />
-
-                        <button
-                          onClick={() => setActiveImageUrl(project.previewUrl)}
-                          className="absolute z-10 w-12 h-12 rounded-full bg-[#1E3DF0] hover:bg-[#1832C7] text-white flex items-center justify-center shadow-lg shadow-[#1E3DF0]/40 group-hover:scale-110 active:scale-95 transition-all"
-                          aria-label="View Full Image"
-                        >
-                          <Eye className="w-5 h-5" />
-                        </button>
-                      </div>
                     ) : (
-                      /* Web / UI Cards: Clean standard preview */
                       <div className="relative w-full h-full">
                         <Image
                           src={project.previewUrl}
@@ -223,14 +210,12 @@ export default function Portfolio() {
                       </div>
                     )}
 
-                    {/* Category Badge Top Left */}
                     <div className="absolute top-3 left-3 z-20 px-3 py-1 rounded-lg bg-slate-950/80 border border-white/10 text-[10px] font-bold text-white backdrop-blur-md flex items-center gap-1.5">
                       {project.type === 'video' ? <Film className="w-3 h-3" /> : <ImageIcon className="w-3 h-3" />}
                       <span>{project.categoryLabel}</span>
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="p-6">
                     <h3 className="text-lg font-bold text-slate-100 group-hover:text-white transition-colors mb-2 line-clamp-1">
                       {project.title}
@@ -241,7 +226,6 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                {/* Card Footer */}
                 <div className="px-6 pt-4 pb-5 flex items-center justify-between border-t border-slate-800/60">
                   {project.badge ? (
                     <span className="inline-flex items-center text-[10px] font-semibold text-slate-300 bg-[#1E3DF0]/10 px-3 py-1 rounded-full border border-[#1E3DF0]/20 shadow-sm">
@@ -294,37 +278,6 @@ export default function Portfolio() {
                   controls
                   autoPlay
                   className="w-full h-full object-contain"
-                />
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Graphics Lightbox Modal (Shows Full Uncropped Image) */}
-      <AnimatePresence>
-        {activeImageUrl && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-3xl max-h-[90vh] bg-slate-900 border border-[#1E3DF0]/40 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(30,61,240,0.3)] flex items-center justify-center p-4"
-            >
-              <button
-                onClick={() => setActiveImageUrl(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-950/80 text-white hover:bg-[#1E3DF0] transition-all"
-                aria-label="Close Image"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="relative w-full h-[80vh] flex items-center justify-center">
-                <Image
-                  src={activeImageUrl}
-                  alt="Expanded Graphic Design"
-                  fill
-                  className="object-contain"
                 />
               </div>
             </motion.div>
