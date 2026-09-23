@@ -69,7 +69,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Israel Uzibor",
     role: "Poet & Video Editor",
     bio: "Blending rhythmic lyrical expression with cinematic post-production editing to create emotive visual stories.",
-    image: "/images/team/israel.jpg",
+    image: "/images/team/israel.jpeg",
   },
   {
     id: "10",
