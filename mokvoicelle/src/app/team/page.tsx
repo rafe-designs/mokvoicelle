@@ -155,7 +155,7 @@ const DETAILED_TEAM: ExtendedTeamMember[] = [
       "Creative Concept Development"
     ],
     tools: ["Adobe Premiere Pro", "DaVinci Resolve", "Audacity"],
-    image: "/images/team/israel.jpg",
+    image: "/images/team/israel.jpeg",
   },
   {
     id: "10",
