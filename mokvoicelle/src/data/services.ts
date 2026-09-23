@@ -25,6 +25,13 @@ export const services: ServiceItem[] = [
     accent: "from-[#1E3DF0] to-indigo-500"
   },
   { 
+    slug: "mobile-app-development",
+    icon: Code, 
+    title: "Mobile App Development", 
+    desc: "Native and cross-platform mobile applications with seamless user experiences and robust functionality.",
+    accent: "from-[#1E3DF0] to-indigo-500"
+  },
+  { 
     slug: "video-3d-animation",
     icon: Video, 
     title: "Video & 3D Animation", 

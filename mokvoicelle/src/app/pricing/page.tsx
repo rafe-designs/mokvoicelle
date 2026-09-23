@@ -3,12 +3,12 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Sparkles, ArrowRight, Zap, Mic, Palette, Video, Share2, Globe, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { Check, Sparkles, ArrowRight, Zap, Mic, Palette, Video, Share2, Globe, ShieldCheck, ArrowLeft, Smartphone } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-type PricingCategory = 'all' | 'web' | 'voice' | 'design' | 'animation' | 'social';
+type PricingCategory = 'all' | 'web' | 'mobile' | 'voice' | 'design' | 'animation' | 'social';
 
 interface ServiceItem {
   id: string;
@@ -22,7 +22,7 @@ interface ServiceItem {
 const CATEGORIZED_PRICING: Record<PricingCategory, { title: string; subtitle: string; icon: React.ReactNode; items: ServiceItem[] }> = {
   all: {
     title: 'Complete Master Rate Card',
-    subtitle: 'Transparent, upfront pricing across all digital engineering, creative production, and media services.',
+    subtitle: 'Transparent, upfront pricing across all digital engineering, mobile apps, creative production, and media services.',
     icon: <Zap className="w-5 h-5" />,
     items: [],
   },
@@ -42,7 +42,7 @@ const CATEGORIZED_PRICING: Record<PricingCategory, { title: string; subtitle: st
       {
         id: 'web-2',
         name: 'Brand New Website (WordPress / CMS)',
-        price: '₦450,000',
+        price: '₦450,005',
         description: 'Ideal for fast-launch corporate sites, blogs, and easily manageable CMS platforms.',
         features: ['Custom WordPress Architecture', '1 Year SEO Support', '1 Year Data Analytics Setup', 'Responsive Mobile & Tablet Design', 'CMS Training & Client Dashboard'],
       },
@@ -52,6 +52,49 @@ const CATEGORIZED_PRICING: Record<PricingCategory, { title: string; subtitle: st
         price: '₦250,000',
         description: 'Transform your existing website with a modern design upgrade and performance overhaul.',
         features: ['UI/UX Design Overhaul', 'Mobile Responsiveness Fixes', 'Speed & Performance Optimization', 'SEO Structure Refinement', 'Content Alignment & Layout Renewal'],
+      },
+    ],
+  },
+  mobile: {
+    title: 'Mobile App Development',
+    subtitle: 'High-performance native, cross-platform mobile apps, and rapid startup MVPs.',
+    icon: <Smartphone className="w-5 h-5" />,
+    items: [
+      {
+        id: 'mob-1',
+        name: 'iOS App Development',
+        price: '₦1,200,000',
+        description: 'Dedicated native iOS application built with Swift optimized for performance and App Store deployment.',
+        features: ['Native Swift Development', 'Apple App Store Submission', 'Custom UI/UX Implementation', 'Secure Authentication & Storage', '1 Year Maintenance Support'],
+      },
+      {
+        id: 'mob-2',
+        name: 'Android App Development',
+        price: '₦1,200,000',
+        description: 'Robust native Android application built with Kotlin optimized for Google Play Store standards.',
+        features: ['Native Kotlin Development', 'Google Play Console Launch', 'Custom Material UI Design', 'API Integration & Local Database', '1 Year Maintenance Support'],
+      },
+      {
+        id: 'mob-3',
+        name: 'Cross-Platform App Development',
+        price: '₦1,200,000',
+        description: 'Simultaneous iOS and Android application deployment built using React Native or Flutter.',
+        features: ['React Native / Flutter Framework', 'Single Codebase Efficiency', 'Both App Store & Play Store Launch', 'Responsive UI & Native Features', '1 Year Maintenance Support'],
+        popular: true,
+      },
+      {
+        id: 'mob-4',
+        name: 'Mobile App UI/UX Overhaul',
+        price: '₦500,000',
+        description: 'Complete user interface redesign and user experience enhancement for existing mobile apps.',
+        features: ['Figma Wireframing & Prototyping', 'Modern Dark/Light Glassmorphism UI', 'User Journey Optimization', 'Design System Hand-off'],
+      },
+      {
+        id: 'mob-5',
+        name: 'Startup Mobile App MVP',
+        price: '₦1,500,000',
+        description: 'Minimum Viable Product to test your startup idea fast in the market with core functionality.',
+        features: ['Core Feature Implementation', 'Cross-Platform Build (iOS & Android)', 'User Auth & Database Backend', 'Payment Gateway Integration', 'Rapid Go-To-Market Delivery'],
       },
     ],
   },
@@ -231,6 +274,7 @@ export default function PricingHubPage() {
   // Flatten items for 'all' tab
   const allItems = [
     ...CATEGORIZED_PRICING.web.items,
+    ...CATEGORIZED_PRICING.mobile.items,
     ...CATEGORIZED_PRICING.voice.items,
     ...CATEGORIZED_PRICING.design.items,
     ...CATEGORIZED_PRICING.animation.items,
@@ -264,7 +308,7 @@ export default function PricingHubPage() {
               Investment & Service Pricing
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Explore our complete, transparent pricing catalog for digital web development, voiceover packages, graphic design, animation, and social media management.
+              Explore our complete, transparent pricing catalog for digital web development, mobile apps, voiceover packages, graphic design, animation, and social media management.
             </p>
           </div>
 
@@ -274,6 +318,7 @@ export default function PricingHubPage() {
               [
                 { id: 'all', label: 'All Services' },
                 { id: 'web', label: 'Web Engineering' },
+                { id: 'mobile', label: 'Mobile Apps' },
                 { id: 'voice', label: 'Voice Overs' },
                 { id: 'design', label: 'Graphic Design' },
                 { id: 'animation', label: 'Animation & Video' },
