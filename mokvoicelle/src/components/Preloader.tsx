@@ -33,26 +33,28 @@ export default function Preloader() {
             filter: 'blur(10px)',
             transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
           }}
-          className="fixed inset-0 z-[100] bg-[#02040A] flex items-center justify-center overflow-hidden select-none"
+          className="fixed inset-0 z-[100] bg-[#02040A] flex items-center justify-center overflow-hidden select-none w-screen h-screen"
         >
-          {/* Preloader Video matching your brand introduction */}
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            onEnded={handleVideoEnded}
-            className="w-full h-full object-cover"
-          >
-            {/* Replace with your actual video source path if hosted locally */}
-            <source src="/preloader.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          {/* Mobile-optimized responsive video container */}
+          <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-black">
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              onEnded={handleVideoEnded}
+              className="w-full h-full object-cover object-center absolute inset-0"
+            >
+              <source src="/preloader.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
 
-          {/* Optional fast skip button */}
+          {/* Skip Intro Button optimized for mobile taps */}
           <button
             onClick={() => setIsLoading(false)}
-            className="absolute bottom-8 right-8 px-4 py-2 rounded-lg bg-slate-900/60 border border-slate-700/50 text-xs font-mono text-slate-400 hover:text-white backdrop-blur-md transition-all z-10"
+            className="absolute bottom-6 right-6 md:bottom-8 md:right-8 px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-700/60 text-xs font-mono text-slate-300 hover:text-white backdrop-blur-md transition-all z-20 shadow-lg active:scale-95"
           >
             SKIP INTRO →
           </button>

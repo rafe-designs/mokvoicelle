@@ -101,7 +101,7 @@ export default function TeamSlider() {
         >
           <div
             ref={carouselRef}
-            className="flex gap-6 overflow-x-auto scrollbar-none scroll-smooth pb-8 pt-2 cursor-grab active:cursor-grabbing"
+            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none scroll-smooth pb-8 pt-2 cursor-grab active:cursor-grabbing"
           >
             {TEAM_MEMBERS.map((member) => (
               <motion.div
@@ -109,7 +109,7 @@ export default function TeamSlider() {
                 onClick={() => setSelectedMember(member)}
                 whileHover={{ y: -6 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="w-[260px] sm:w-[280px] bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden group hover:border-[#1E3DF0]/60 hover:shadow-[0_12px_30px_rgba(30,61,240,0.25)] transition-all duration-300 flex-shrink-0 cursor-pointer"
+                className="min-w-[85%] sm:min-w-[280px] max-w-[320px] bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden group hover:border-[#1E3DF0]/60 hover:shadow-[0_12px_30px_rgba(30,61,240,0.25)] transition-all duration-300 flex-shrink-0 cursor-pointer snap-center"
               >
                 {/* Image Container with Top Object Position for Face Visibility */}
                 <div className="relative h-64 w-full overflow-hidden bg-slate-800">
@@ -117,7 +117,7 @@ export default function TeamSlider() {
                     src={member.image}
                     alt={member.name}
                     fill
-                    sizes="(max-width: 640px) 260px, 280px"
+                    sizes="(max-width: 640px) 85vw, 280px"
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
@@ -147,7 +147,7 @@ export default function TeamSlider() {
 
       </div>
 
-      {/* Expanded Detailed Profile Modal (Matches Team Page Style) */}
+      {/* Expanded Detailed Profile Modal */}
       <AnimatePresence>
         {selectedMember && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
